@@ -15,7 +15,7 @@ public class BattleField_activity extends MainActivity {
         TableLayout tableLayout = (TableLayout) findViewById(R.id.seaField);
         //BattleField bf = new BattleField();
 
-
+        //Отрисовка поля~
         for (int i = 0; i <= BattleField.Height; i++) {
             int id = i * 10;
             TableRow tableRow = new TableRow(this);
@@ -79,9 +79,9 @@ public class BattleField_activity extends MainActivity {
                     }
                 }
             }
-        }
+        }//~Отрисовка поля
 
-    } // Отрисовка поля
+    }
 
 
 }

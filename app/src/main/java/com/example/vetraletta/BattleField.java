@@ -39,6 +39,9 @@ public class BattleField {
     public static char BattleField1[][] = new char[Height][Width]; //Массив кораблей
     public static char AttackField[][] = new char[Height][Width]; // атакованое поле
 
+
+
+    //проаерка координат
     public static boolean NoShipNearby(char bf[][], int x, int y) {
         boolean no = (bf[y][x] == ICON_sea);
 
@@ -58,6 +61,7 @@ public class BattleField {
         return no;
     }
 
+    //проаерка координат
     public static boolean ShipPlacement(char bf[][], int lt, char ic) {
         boolean ok = false;
         int x1, y1;
@@ -96,6 +100,7 @@ public class BattleField {
         return ok;
     }
 
+    //Заполнение поля
     public static boolean ShipsPlacement(char bf[][]) {
         boolean ok = false;
 
@@ -117,6 +122,7 @@ public class BattleField {
         return ok;
     }
 
+    //Очищение поля
     public static void ClearBattlefield(char bf[][], char af[][]) {
         for (int y = 0; y < Height; y++) {
             for (int x = 0; x < Width; x++) {
