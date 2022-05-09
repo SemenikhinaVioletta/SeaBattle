@@ -126,4 +126,3 @@ public class BattleField_activity extends MainActivity {
 
 
 }
-
