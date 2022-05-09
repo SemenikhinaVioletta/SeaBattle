@@ -96,15 +96,25 @@ public class BattleField_activity extends MainActivity {
                     TableRow tr = (TableRow) findViewById(id1);
                     tr.setBackgroundColor(Color.GREEN);
                     if (bf[i][j] == BattleField.MineIcon) {
-                        tr.setBackgroundColor(Color.RED);
+                        tr.setBackgroundColor(Color.BLACK);
                     }
                 }
             }
         }//~Отрисовка поля
 
-        Button button = (Button) findViewById(R.id.end);
+        Button button1 = (Button) findViewById(R.id.endPlacement);
 
-        button.setOnClickListener(new View.OnClickListener() {
+        button1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(BattleField_activity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        Button button2 = (Button) findViewById(R.id.end);
+
+        button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(BattleField_activity.this, MainActivity.class);
