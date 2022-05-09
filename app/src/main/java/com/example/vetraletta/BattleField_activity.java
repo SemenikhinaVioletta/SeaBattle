@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+import android.widget.TextView;
 
 public class BattleField_activity extends MainActivity {
     @Override
@@ -46,16 +47,33 @@ public class BattleField_activity extends MainActivity {
                 tableRow1.setId(id2);
                 tableRow.addView(tableRow1);
 
-                TableRow tableRow2 = new TableRow(this);
-                TableRow.LayoutParams layoutParams2 = new TableRow.LayoutParams
-                        (TableRow.LayoutParams.WRAP_CONTENT,
-                                TableRow.LayoutParams.WRAP_CONTENT);
-                layoutParams2.weight = 10;
+                if (i > 0 && j > 1) {
+                    TableRow tableRow2 = new TableRow(this);
+                    TableRow.LayoutParams layoutParams2 = new TableRow.LayoutParams
+                            (TableRow.LayoutParams.WRAP_CONTENT,
+                                    TableRow.LayoutParams.WRAP_CONTENT);
+                    layoutParams2.weight = 10;
 
-                layoutParams2.setMargins(50, 50, 50, 50);
-                tableRow2.setLayoutParams(layoutParams2);
-                tableRow2.setId(j);
-                tableRow1.addView(tableRow2);
+                    layoutParams2.setMargins(50, 50, 50, 50);
+                    tableRow2.setLayoutParams(layoutParams2);
+                    tableRow2.setId(j);
+                    tableRow1.addView(tableRow2);
+                } else {
+                    int c;
+                    String s = "";
+                    if (i == 0 && j > 1) {
+                        c = j - 1;
+                        s = Integer.toString(c);
+                    }
+                    if (j == 1 && i > 0){
+                        c = i;
+                        s = Integer.toString(c);
+                    }
+                    TextView textView = new TextView(BattleField_activity.this);
+                    tableRow1.addView(textView);
+                    textView.setText(s);
+                    textView.setTextSize(20);
+                }
                 if (i == 0 || j == 1) {
                     tableRow1.setBackgroundColor(Color.YELLOW);
                 } else tableRow1.setBackgroundColor(Color.argb(100, 0, 50, 200));
