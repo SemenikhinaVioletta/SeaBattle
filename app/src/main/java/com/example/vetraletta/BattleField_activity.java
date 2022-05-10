@@ -19,7 +19,6 @@ public class BattleField_activity extends MainActivity {
 
 
         TableLayout tableLayout = findViewById(R.id.seaField);
-        //BattleField bf = new BattleField();
 
         //Отрисовка поля~
         for (int i = 0; i <= BattleField.Height; i++) {
@@ -89,7 +88,6 @@ public class BattleField_activity extends MainActivity {
         BattleField.ClearBattlefield(bf, af);
         BattleField.ShipsPlacement(bf);
 
-        //super.onStart();
         for (int i = 0; i < BattleField.Height; i++) {
             int id = (i + 1) * 10;
             for (int j = 0; j < BattleField.Height; j++) {

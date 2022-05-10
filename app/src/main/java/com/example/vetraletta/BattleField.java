@@ -1,7 +1,7 @@
 package com.example.vetraletta;
 
 public class BattleField {
-    BattleField(){
+    BattleField() {
         ShipsPlacement(BattleField1);
     }
 
@@ -38,7 +38,6 @@ public class BattleField {
 
     public static char BattleField1[][] = new char[Height][Width]; //Массив кораблей
     public static char AttackField[][] = new char[Height][Width]; // атакованое поле
-
 
 
     //проаерка координат
