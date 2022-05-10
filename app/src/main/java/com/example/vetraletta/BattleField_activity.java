@@ -10,13 +10,15 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 public class BattleField_activity extends MainActivity {
+    public static int d;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sea_battle);
 
 
-        TableLayout tableLayout = (TableLayout) findViewById(R.id.seaField);
+        TableLayout tableLayout = findViewById(R.id.seaField);
         //BattleField bf = new BattleField();
 
         //Отрисовка поля~
@@ -65,7 +67,7 @@ public class BattleField_activity extends MainActivity {
                         c = j - 1;
                         s = Integer.toString(c);
                     }
-                    if (j == 1 && i > 0){
+                    if (j == 1 && i > 0) {
                         c = i;
                         s = Integer.toString(c);
                     }
@@ -102,17 +104,17 @@ public class BattleField_activity extends MainActivity {
             }
         }//~Отрисовка поля
 
-        Button button1 = (Button) findViewById(R.id.endPlacement);
+        Button button1 = findViewById(R.id.endPlacement);
+        Button button2 = findViewById(R.id.end);
 
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                d = (int) (Math.random() * 2);
                 Intent intent = new Intent(BattleField_activity.this, MainActivity.class);
                 startActivity(intent);
             }
         });
-
-        Button button2 = (Button) findViewById(R.id.end);
 
         button2.setOnClickListener(new View.OnClickListener() {
             @Override

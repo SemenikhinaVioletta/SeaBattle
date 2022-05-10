@@ -15,7 +15,7 @@
     <TableLayout
         android:id="@+id/seaField"
         android:layout_width="match_parent"
-        android:layout_height="273dp"
+        android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:layout_weight="1"></TableLayout>
 
