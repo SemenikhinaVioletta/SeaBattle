@@ -6,6 +6,7 @@ public class BattleField {
     }
 
     public static final char ICON_sea = '_'; // незанятое поле
+    public static int l = 0;
 
     public static final int NBattleships = 1; //Количество
     public static final int BattleshipSize = 4; //Размер

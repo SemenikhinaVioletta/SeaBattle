@@ -6,35 +6,33 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class Battle extends MainActivity {
-
+public class Battle2 extends MainActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.my_activity);
-        Button b1 = findViewById(R.id.endCOMP);
+        setContentView(R.layout.comp_activity);
+        Button b2 = findViewById(R.id.endMY);
 
         if (BattleField.l == 18) {
             TextView tv = findViewById(R.id.Hello);
-            tv.setText("Вы победили");
-            b1.setOnClickListener(new View.OnClickListener() {
+            tv.setText("Победил Comp");
+            b2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    BattleField_activity.d = 1;
+                    BattleField_activity.d = 0;
                     BattleField.l += 1;
-                    Intent intent = new Intent(Battle.this, MainActivity.class);
+                    Intent intent = new Intent(Battle2.this, MainActivity.class);
                     startActivity(intent);
                 }
             });
-        } else {b1.setOnClickListener(new View.OnClickListener() {
+        } else{ b2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BattleField_activity.d = 1;
+                BattleField_activity.d = 0;
                 BattleField.l += 1;
-                Intent intent = new Intent(Battle.this, Battle2.class);
+                Intent intent = new Intent(Battle2.this, Battle.class);
                 startActivity(intent);
             }
         });}
     }
 }
-

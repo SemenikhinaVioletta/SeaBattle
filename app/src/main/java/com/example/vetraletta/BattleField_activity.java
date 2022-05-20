@@ -22,7 +22,7 @@ public class BattleField_activity extends MainActivity {
 
         //Отрисовка поля~
         for (int i = 0; i <= BattleField.Height; i++) {
-            int id = i * 10;
+            int id = (i + 1) * 10;
             TableRow tableRow = new TableRow(this);
             TableRow.LayoutParams layoutParams = new TableRow.LayoutParams
                     (TableRow.LayoutParams.MATCH_PARENT,
@@ -89,7 +89,7 @@ public class BattleField_activity extends MainActivity {
         BattleField.ShipsPlacement(bf);
 
         for (int i = 0; i < BattleField.Height; i++) {
-            int id = (i + 1) * 10;
+            int id = (i + 2) * 10;
             for (int j = 0; j < BattleField.Height; j++) {
                 int id1 = id + j + 2;
                 if (bf[i][j] != BattleField.ICON_sea) {
@@ -109,8 +109,13 @@ public class BattleField_activity extends MainActivity {
             @Override
             public void onClick(View v) {
                 d = (int) (Math.random() * 2);
-                Intent intent = new Intent(BattleField_activity.this, MainActivity.class);
-                startActivity(intent);
+                if (d == 0) {
+                    Intent intent = new Intent(BattleField_activity.this, Battle.class);
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(BattleField_activity.this, Battle2.class);
+                    startActivity(intent);
+                }
             }
         });
 
