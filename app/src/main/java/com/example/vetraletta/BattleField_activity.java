@@ -109,13 +109,8 @@ public class BattleField_activity extends MainActivity {
             @Override
             public void onClick(View v) {
                 d = (int) (Math.random() * 2);
-                if (d == 0) {
-                    Intent intent = new Intent(BattleField_activity.this, Battle.class);
-                    startActivity(intent);
-                } else {
-                    Intent intent = new Intent(BattleField_activity.this, Battle2.class);
-                    startActivity(intent);
-                }
+                Intent intent = new Intent(BattleField_activity.this, Battle.class);
+                startActivity(intent);
             }
         });
 

@@ -20,7 +20,6 @@
         </activity>
         <activity android:name=".BattleField_activity" />
         <activity android:name=".Battle" />
-        <activity android:name=".Battle2" />
     </application>
 
 </manifest>
