@@ -102,17 +102,7 @@ public class BattleField_activity extends MainActivity {
             }
         }//~Отрисовка поля
 
-       // Button button1 = findViewById(R.id.endPlacement);
         Button button2 = findViewById(R.id.end);
-
-        /*button1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                d = (int) (Math.random() * 2);
-                Intent intent = new Intent(BattleField_activity.this, Battle.class);
-                startActivity(intent);
-            }
-        });*/
 
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
