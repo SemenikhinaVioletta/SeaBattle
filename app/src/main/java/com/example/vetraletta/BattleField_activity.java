@@ -88,7 +88,7 @@ public class BattleField_activity extends MainActivity {
         BattleField.ClearBattlefield(bf, af);
         BattleField.ShipsPlacement(bf);
 
-        for (int i = 0; i < BattleField.Height; i++) {
+        /*for (int i = 0; i < BattleField.Height; i++) {
             int id = (i + 2) * 10;
             for (int j = 0; j < BattleField.Height; j++) {
                 int id1 = id + j + 2;
@@ -100,9 +100,10 @@ public class BattleField_activity extends MainActivity {
                     }
                 }
             }
-        }//~Отрисовка поля
+        }*///~Отрисовка поля
 
         Button button2 = findViewById(R.id.end);
+        Button button1 = findViewById(R.id.endPlacement);
 
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,6 +112,24 @@ public class BattleField_activity extends MainActivity {
                 startActivity(intent);
             }
         });
+        d = (int) (Math.random() * 2);
+        if (d == 1) {
+            button1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(BattleField_activity.this, Battle.class);
+                    startActivity(intent);
+                }
+            });
+        } else {
+            button1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(BattleField_activity.this, Battle.class);
+                    startActivity(intent);
+                }
+            });
+        }
 
     }
 

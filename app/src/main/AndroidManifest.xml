@@ -18,8 +18,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.example.seabatle2.BattleField_activity" />
-        <activity android:name="com.example.seabatle2.Battle" />
+        <activity android:name=".BattleField_activity" />
+        <activity android:name=".Battle" />
+        <activity android:name=".Battle2" />
     </application>
 
 </manifest>

@@ -13,27 +13,17 @@
         android:textSize="50dp" />
 
     <TableLayout
-        android:id="@+id/seaField"
+        android:id="@+id/seaFieldBattle"
         android:layout_width="match_parent"
         android:layout_height="273dp"
         android:layout_margin="10dp"
         android:layout_weight="1"></TableLayout>
 
     <Button
-        android:id="@+id/endPlacement"
+        android:id="@+id/endPlacementBattle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="30dp"
         android:text="Закончить"
         android:textSize="30dp" />
-
-    <Button
-        android:id="@+id/end"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="30dp"
-        android:text="Выйти ("
-        android:textSize="30dp" />
-
-
 </LinearLayout>
