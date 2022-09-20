@@ -1,72 +1,13 @@
 package com.example.vetraletta;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.widget.TableRow;
 import java.util.Arrays;
 
 public class BattleField {
-    /*
-     //проаерка координат
-     public static boolean ShipPlacement(char bf[][], int lt, char ic) {
-         boolean ok = false;
-         int x1, y1;
-
-         //srand(time(NULL));
-         for (int t = 0; t < NToTry; t++) {
-             int x = (int) (Math.random() * Width);
-             int y = (int) (Math.random() * Height);
-             int d = (int) (Math.random() * 2);
-
-             ok = (false);
-             if (d == 0 && x + lt > Width) continue;
-             if (d == 1 && y + lt > Height) continue;
-
-             ok = true;
-             x1 = x;
-             y1 = y;
-             for (int l = 0; ok && l < lt; l++) {
-                 ok = NoShipNearby(bf, x1, y1);
-                 if (d == 0) x1++;
-                 else y1++;
-             }
-
-             if (!ok) continue;
-
-             x1 = x;
-             y1 = y;
-             for (int l = 0; l < lt; l++) {
-                 bf[y1][x1] = ic;
-                 if (d == 0) x1++;
-                 else y1++;
-             }
-             break;
-         }
-
-         return ok;
-     }
-
-     //Заполнение поля
-     public static boolean ShipsPlacement(char bf[][]) {
-         boolean ok = false;
-
-         for (int t = 0; t < NToTry; t++) {
-             ok = true;
-             ClearBattlefield(BattleField1, AttackField);
-             for (int s = 0; ok && s < NBattleships; s++)
-                 ok = ShipPlacement(bf, BattleshipSize, BattleshipIcon);
-             for (int s = 0; ok && s < NCruisers; s++)
-                 ok = ShipPlacement(bf, CruiserSize, CruiserIcon);
-             for (int s = 0; ok && s < NDestroyers; s++)
-                 ok = ShipPlacement(bf, DestroyerSize, DestroyerIcon);
-             for (int s = 0; ok && s < NSubmarines; s++)
-                 ok = ShipPlacement(bf, SubmarineSize, SubmarineIcon);
-             for (int s = 0; ok && s < NMines; s++)
-                 ok = ShipPlacement(bf, MineSize, MineIcon);
-             if (ok) break;
-         }
-         return ok;
-     }
- */
-    static final int Width = 10;
-    static final int Height = 10;
+    static final int width = 10;
+    static final int height = 10;
 
     static final int missileBoatCount = 4;
     static final int submarineCount = 3;
@@ -75,7 +16,11 @@ public class BattleField {
     static final int totalShipCount =
             missileBoatCount + submarineCount + destroyerCount + cruiserCount;
 
+    static final char alreadyHit = '.';
+    static final char openSea = ' ';
+
     Ship[] ships;
+    char[][] sea;
 
     public BattleField() {
         int i = 0;
@@ -89,16 +34,63 @@ public class BattleField {
             ships[i++] = new Ship(Ship.destroyer);
         for (int j = 0; j < cruiserCount; j++)
             ships[i++] = new Ship(Ship.cruiser);
+        sea = new char[height][width];
+    }
+
+    public void eraseSea() {
+        for (int i = 0; i < height; i++)
+            for (int j = 0; j < width; j++)
+                sea[i][j] = openSea;
     }
 
     public boolean placeShips() {
+        eraseSea();
+        return true;
+    }
+
+    public void draw() {
+        for (int y = 0; y < height; y++) {
+            int idY = (y + 2) * 10;
+
+            for (int x = 0; x < width; x++) {
+                int idXY = idY + x + 2;
+                TableRow tr = (TableRow) findViewById(idXY);
+
+            }
+        }
     }
 }
 
 public class CyberBattleField extends BattleField {
+
     @Override
     public boolean placeShips() {
+        int k, j;
 
+        // srand(time(NULL));
+        super.placeShips();
+        for (k = ships.length - 1; k >= 0; k--) {
+            do {
+                do {
+                    ships[k].moveTo(
+                            (int) (Math.random() * width), (int) (Math.random() * height));
+                    ships[k].turnOn(Math.random() < 0.5 ? Ship.horizontal : Ship.vertical);
+                } while (!ships[k].checkInField(width, height));
+
+                for (j = k + 1; j < ships.length; j++)
+                    if (ships[k].inTouchOf(ships[j])) break;
+            } while (j < ships.length);
+            ships[k].build();
+        }
+
+        return true;
+    }
+
+    @Override
+    public void draw() {
+        super.draw();
+        for (int i = 0; i < ships.length; i++)
+            ships[i].draw(true);
     }
 }
 
@@ -207,7 +199,6 @@ public class Ship {
         return false;
     }
 
-    public void draw() {
+    public void draw(boolean hiden) {
     }
-
 }

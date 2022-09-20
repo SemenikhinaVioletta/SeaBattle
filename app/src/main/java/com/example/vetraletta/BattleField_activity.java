@@ -21,7 +21,7 @@ public class BattleField_activity extends MainActivity {
         TableLayout tableLayout = findViewById(R.id.seaField);
 
         //Отрисовка поля~
-        for (int i = 0; i <= BattleField.Height; i++) {
+        for (int i = 0; i <= BattleField.height; i++) {
             int id = (i + 1) * 10;
             TableRow tableRow = new TableRow(this);
             TableRow.LayoutParams layoutParams = new TableRow.LayoutParams
@@ -35,7 +35,7 @@ public class BattleField_activity extends MainActivity {
             tableLayout.addView(tableRow);
             tableRow.setBackgroundColor(Color.GRAY);
 
-            for (int j = 1; j <= BattleField.Width + 1; j++) {
+            for (int j = 1; j <= BattleField.width + 1; j++) {
                 int id2 = id + j;
                 TableRow tableRow1 = new TableRow(this);
                 TableRow.LayoutParams layoutParams1 = new TableRow.LayoutParams
@@ -83,10 +83,6 @@ public class BattleField_activity extends MainActivity {
         }
 
 
-        char bf[][] = BattleField.BattleField1;
-        char af[][] = BattleField.AttackField;
-        BattleField.ClearBattlefield(bf, af);
-        BattleField.ShipsPlacement(bf);
 
         /*for (int i = 0; i < BattleField.Height; i++) {
             int id = (i + 2) * 10;
