@@ -1,140 +1,213 @@
 package com.example.vetraletta;
 
+import java.util.Arrays;
+
 public class BattleField {
-    BattleField() {
-        ShipsPlacement(BattleField1);
+    /*
+     //проаерка координат
+     public static boolean ShipPlacement(char bf[][], int lt, char ic) {
+         boolean ok = false;
+         int x1, y1;
+
+         //srand(time(NULL));
+         for (int t = 0; t < NToTry; t++) {
+             int x = (int) (Math.random() * Width);
+             int y = (int) (Math.random() * Height);
+             int d = (int) (Math.random() * 2);
+
+             ok = (false);
+             if (d == 0 && x + lt > Width) continue;
+             if (d == 1 && y + lt > Height) continue;
+
+             ok = true;
+             x1 = x;
+             y1 = y;
+             for (int l = 0; ok && l < lt; l++) {
+                 ok = NoShipNearby(bf, x1, y1);
+                 if (d == 0) x1++;
+                 else y1++;
+             }
+
+             if (!ok) continue;
+
+             x1 = x;
+             y1 = y;
+             for (int l = 0; l < lt; l++) {
+                 bf[y1][x1] = ic;
+                 if (d == 0) x1++;
+                 else y1++;
+             }
+             break;
+         }
+
+         return ok;
+     }
+
+     //Заполнение поля
+     public static boolean ShipsPlacement(char bf[][]) {
+         boolean ok = false;
+
+         for (int t = 0; t < NToTry; t++) {
+             ok = true;
+             ClearBattlefield(BattleField1, AttackField);
+             for (int s = 0; ok && s < NBattleships; s++)
+                 ok = ShipPlacement(bf, BattleshipSize, BattleshipIcon);
+             for (int s = 0; ok && s < NCruisers; s++)
+                 ok = ShipPlacement(bf, CruiserSize, CruiserIcon);
+             for (int s = 0; ok && s < NDestroyers; s++)
+                 ok = ShipPlacement(bf, DestroyerSize, DestroyerIcon);
+             for (int s = 0; ok && s < NSubmarines; s++)
+                 ok = ShipPlacement(bf, SubmarineSize, SubmarineIcon);
+             for (int s = 0; ok && s < NMines; s++)
+                 ok = ShipPlacement(bf, MineSize, MineIcon);
+             if (ok) break;
+         }
+         return ok;
+     }
+ */
+    static final int Width = 10;
+    static final int Height = 10;
+
+    static final int missileBoatCount = 4;
+    static final int submarineCount = 3;
+    static final int destroyerCount = 2;
+    static final int cruiserCount = 1;
+    static final int totalShipCount =
+            missileBoatCount + submarineCount + destroyerCount + cruiserCount;
+
+    Ship[] ships;
+
+    public BattleField() {
+        int i = 0;
+
+        ships = new Ship[totalShipCount];
+        for (int j = 0; j < missileBoatCount; j++)
+            ships[i++] = new Ship(Ship.missileBoat);
+        for (int j = 0; j < submarineCount; j++)
+            ships[i++] = new Ship(Ship.submarine);
+        for (int j = 0; j < destroyerCount; j++)
+            ships[i++] = new Ship(Ship.destroyer);
+        for (int j = 0; j < cruiserCount; j++)
+            ships[i++] = new Ship(Ship.cruiser);
     }
 
-    public static final char ICON_sea = '_'; // незанятое поле
-    public static int l = 0;
+    public boolean placeShips() {
+    }
+}
 
-    public static final int NBattleships = 1; //Количество
-    public static final int BattleshipSize = 4; //Размер
-    public static final char BattleshipIcon = 'B'; //Обозначение
+public class CyberBattleField extends BattleField {
+    @Override
+    public boolean placeShips() {
 
-    //Трёхпалубный
-    public static final int NCruisers = 2; //Количество
-    public static final int CruiserSize = 3; //Размер
-    public static final char CruiserIcon = 'C'; //Обозначение
+    }
+}
 
-    //Двухпалубный
-    public static final int NDestroyers = 3; //Количество
-    public static final int DestroyerSize = 2; //Размер
-    public static final char DestroyerIcon = 'D'; //Обозначение
+public class Ship {
+    public static final int missileBoat = 1;
+    public static final int submarine = 2;
+    public static final int destroyer = 3;
+    public static final int cruiser = 4;
 
-    //Однопалубный
-    public static final int NSubmarines = 2; //Количество
-    public static final int SubmarineSize = 1; //Размер
-    public static final char SubmarineIcon = 'S'; //Обозначение
+    public static final int horizontal = 0;
+    public static final int vertical = 1;
 
-    //Мина
-    public static final int NMines = 2; //Количество
-    public static final int MineSize = 1; //Размер
-    public static final char MineIcon = 'M'; //Обозначение
+    static final char empty = ' ';
+    static final char inOrder = 'O';
+    static final char knockedOut = 'X';
 
-    //Поле
-    public static final int Width = 10; //Ширина
-    public static final int Height = 10; //Высота
-    public static final int NToTry = 30;
+    int x, y, direction;
+    char[] body;
 
-    public static char BattleField1[][] = new char[Height][Width]; //Массив кораблей
-    public static char AttackField[][] = new char[Height][Width]; // атакованое поле
-
-
-    //проаерка координат
-    public static boolean NoShipNearby(char bf[][], int x, int y) {
-        boolean no = (bf[y][x] == ICON_sea);
-
-        if (no && x > 0) {
-            no = (bf[y][x - 1] == ICON_sea);
-            if (no && y > 0) no = (bf[y - 1][x - 1] == ICON_sea);
-            if (no && y < Height - 1) no = (bf[y + 1][x - 1] == ICON_sea);
-        }
-        if (no && x < Width - 1) {
-            no = (bf[y][x + 1] == ICON_sea);
-            if (no && y > 0) no = (bf[y - 1][x + 1] == ICON_sea);
-            if (no && y < Height - 1) no = (bf[y + 1][x + 1] == ICON_sea);
-        }
-        if (no && y > 0) no = (bf[y - 1][x] == ICON_sea);
-        if (no && y < Height - 1) no = (bf[y + 1][x] == ICON_sea);
-
-        return no;
+    public Ship(int shipType) {
+        x = 0;
+        y = 0;
+        direction = horizontal;
+        body = new char[shipType];
+        Arrays.fill(body, empty);
     }
 
-    //проаерка координат
-    public static boolean ShipPlacement(char bf[][], int lt, char ic) {
-        boolean ok = false;
-        int x1, y1;
-
-        //srand(time(NULL));
-        for (int t = 0; t < NToTry; t++) {
-            int x = (int) (Math.random() * Width);
-            int y = (int) (Math.random() * Height);
-            int d = (int) (Math.random() * 2);
-
-            ok = (false);
-            if (d == 0 && x + lt > Width) continue;
-            if (d == 1 && y + lt > Height) continue;
-
-            ok = true;
-            x1 = x;
-            y1 = y;
-            for (int l = 0; ok && l < lt; l++) {
-                ok = NoShipNearby(bf, x1, y1);
-                if (d == 0) x1++;
-                else y1++;
-            }
-
-            if (!ok) continue;
-
-            x1 = x;
-            y1 = y;
-            for (int l = 0; l < lt; l++) {
-                bf[y1][x1] = ic;
-                if (d == 0) x1++;
-                else y1++;
-            }
-            break;
-        }
-
-        return ok;
+    public void build() {
+        Arrays.fill(body, inOrder);
     }
 
-    //Заполнение поля
-    public static boolean ShipsPlacement(char bf[][]) {
-        boolean ok = false;
-
-        for (int t = 0; t < NToTry; t++) {
-            ok = true;
-            ClearBattlefield(BattleField1, AttackField);
-            for (int s = 0; ok && s < NBattleships; s++)
-                ok = ShipPlacement(bf, BattleshipSize, BattleshipIcon);
-            for (int s = 0; ok && s < NCruisers; s++)
-                ok = ShipPlacement(bf, CruiserSize, CruiserIcon);
-            for (int s = 0; ok && s < NDestroyers; s++)
-                ok = ShipPlacement(bf, DestroyerSize, DestroyerIcon);
-            for (int s = 0; ok && s < NSubmarines; s++)
-                ok = ShipPlacement(bf, SubmarineSize, SubmarineIcon);
-            for (int s = 0; ok && s < NMines; s++)
-                ok = ShipPlacement(bf, MineSize, MineIcon);
-            if (ok) break;
-        }
-        return ok;
+    public boolean afloat() {
+        for (char c : body) if (c == inOrder) return true;
+        return false;
     }
 
-    //Очищение поля
-    public static void ClearBattlefield(char bf[][], char af[][]) {
-        for (int y = 0; y < Height; y++) {
-            for (int x = 0; x < Width; x++) {
-                bf[y][x] = ICON_sea;
+    public int hit(int x, int y) {
+        for (int i = 0; i < body.length; i++) {
+            if (direction == horizontal) {
+                if (this.y != y) break;
+                if (this.x + i == x) return i;
+            } else {
+                if (this.x != x) break;
+                if (this.y + i == y) return i;
             }
         }
-        for (int i = 0; i < Height; i++) {
-            for (int j = 0; j < Width; j++) {
-                af[i][j] = ICON_sea;
-            }
+        return -1;
+    }
 
+    public boolean knockOut(int i) {
+        body[i] = knockedOut;
+        return afloat();
+    }
+
+    public void moveTo(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public void turnOn(int dir) {
+        direction = dir;
+    }
+
+    public int getX(int i) {
+        return direction == horizontal ? x + i : x;
+    }
+
+    public int getY(int i) {
+        return direction == vertical ? y + i : y;
+    }
+
+    public boolean checkInField(int width, int height) {
+        if (direction == horizontal) {
+            return y < height && x + body.length <= width;
+        } else
+            return y + body.length <= height && x < width;
+    }
+
+    public int type() {
+        return body.length;
+    }
+
+    public int length() {
+        return body.length;
+    }
+
+    public boolean crossTo(Ship s) {
+        for (int i = 0; i < body.length; i++)
+            if (s.hit(getX(i), getY(i)) >= 0) return true;
+        return false;
+    }
+
+    public boolean inTouchOf(Ship s) {
+        for (int i = 0; i < body.length; i++) {
+            int x = getX(i);
+            int y = getY(i);
+            if (s.hit(x - 1, y - 1) < 0) return true;
+            if (s.hit(x, y - 1) < 0) return true;
+            if (s.hit(x + 1, y - 1) < 0) return true;
+            if (s.hit(x, y - 1) < 0) return true;
+            if (s.hit(x, y + 1) < 0) return true;
+            if (s.hit(x - 1, y + 1) < 0) return true;
+            if (s.hit(x, y + 1) < 0) return true;
+            if (s.hit(x + 1, y + 1) < 0) return true;
         }
+        return false;
+    }
+
+    public void draw() {
     }
 
 }
