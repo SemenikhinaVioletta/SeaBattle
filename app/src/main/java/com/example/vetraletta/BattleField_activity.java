@@ -10,19 +10,42 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 public class BattleField_activity extends MainActivity {
-    public static int d;
+    public static View seaView;
+
+    final int indexCyberBF = 0;
+    final int indexHumanBF = 1;
+    BattleField bf[] = new BattleField[2];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sea_battle);
 
+        makeSeaField();
 
+        bf[indexCyberBF] = new CyberBattleField();
+        bf[indexHumanBF] = new HumanBattleField();
+
+        bf[indexCyberBF].placeShips();
+        bf[indexCyberBF].draw();
+
+
+        Button button2 = findViewById(R.id.end);
+        Button button1 = findViewById(R.id.endPlacement);
+
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(BattleField_activity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void makeSeaField() {
         TableLayout tableLayout = findViewById(R.id.seaField);
-
-        //Отрисовка поля~
+        seaView = (View) tableLayout;
         for (int i = 0; i <= BattleField.height; i++) {
-            int id = (i + 1) * 10;
             TableRow tableRow = new TableRow(this);
             TableRow.LayoutParams layoutParams = new TableRow.LayoutParams
                     (TableRow.LayoutParams.MATCH_PARENT,
@@ -31,12 +54,10 @@ public class BattleField_activity extends MainActivity {
             layoutParams.setMargins(5, 5, 5, 5);
 
             tableRow.setLayoutParams(layoutParams);
-            tableRow.setId(id);
             tableLayout.addView(tableRow);
             tableRow.setBackgroundColor(Color.GRAY);
 
-            for (int j = 1; j <= BattleField.width + 1; j++) {
-                int id2 = id + j;
+            for (int j = 0; j <= BattleField.width; j++) {
                 TableRow tableRow1 = new TableRow(this);
                 TableRow.LayoutParams layoutParams1 = new TableRow.LayoutParams
                         (TableRow.LayoutParams.MATCH_PARENT,
@@ -45,7 +66,6 @@ public class BattleField_activity extends MainActivity {
 
                 layoutParams1.setMargins(5, 5, 5, 5);
                 tableRow1.setLayoutParams(layoutParams1);
-                tableRow1.setId(id2);
                 tableRow.addView(tableRow1);
 
                 if (i > 0 && j > 1) {
@@ -57,7 +77,6 @@ public class BattleField_activity extends MainActivity {
 
                     layoutParams2.setMargins(50, 50, 50, 50);
                     tableRow2.setLayoutParams(layoutParams2);
-                    tableRow2.setId(j);
                     tableRow1.addView(tableRow2);
                 } else {
                     int c;
@@ -73,6 +92,7 @@ public class BattleField_activity extends MainActivity {
                     TextView textView = new TextView(BattleField_activity.this);
                     tableRow1.addView(textView);
                     textView.setText(s);
+                    textView.setId(BattleField.idXY(j, i));
                     textView.setTextSize(20);
                 }
                 if (i == 0 || j == 1) {
@@ -82,52 +102,5 @@ public class BattleField_activity extends MainActivity {
             }
         }
 
-
-
-        /*for (int i = 0; i < BattleField.Height; i++) {
-            int id = (i + 2) * 10;
-            for (int j = 0; j < BattleField.Height; j++) {
-                int id1 = id + j + 2;
-                if (bf[i][j] != BattleField.ICON_sea) {
-                    TableRow tr = (TableRow) findViewById(id1);
-                    tr.setBackgroundColor(Color.GREEN);
-                    if (bf[i][j] == BattleField.MineIcon) {
-                        tr.setBackgroundColor(Color.BLACK);
-                    }
-                }
-            }
-        }*///~Отрисовка поля
-
-        Button button2 = findViewById(R.id.end);
-        Button button1 = findViewById(R.id.endPlacement);
-
-        button2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(BattleField_activity.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
-        d = (int) (Math.random() * 2);
-        if (d == 1) {
-            button1.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(BattleField_activity.this, Battle.class);
-                    startActivity(intent);
-                }
-            });
-        } else {
-            button1.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(BattleField_activity.this, Battle.class);
-                    startActivity(intent);
-                }
-            });
-        }
-
     }
-
-
 }
