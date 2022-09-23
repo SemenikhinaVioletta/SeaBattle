@@ -42,10 +42,11 @@ public class BattleField_activity extends MainActivity {
         });
     }
 
+    //отрисовка таблицы
     private void makeSeaField() {
         TableLayout tableLayout = findViewById(R.id.seaField);
         seaView = (View) tableLayout;
-        for (int i = 0; i <= BattleField.height; i++) {
+        for (int i = -1; i <= BattleField.height - 1; i++) {
             TableRow tableRow = new TableRow(this);
             TableRow.LayoutParams layoutParams = new TableRow.LayoutParams
                     (TableRow.LayoutParams.MATCH_PARENT,
@@ -57,7 +58,7 @@ public class BattleField_activity extends MainActivity {
             tableLayout.addView(tableRow);
             tableRow.setBackgroundColor(Color.GRAY);
 
-            for (int j = 0; j <= BattleField.width; j++) {
+            for (int j = -1; j <= BattleField.width - 1; j++) {
                 TableRow tableRow1 = new TableRow(this);
                 TableRow.LayoutParams layoutParams1 = new TableRow.LayoutParams
                         (TableRow.LayoutParams.MATCH_PARENT,
@@ -71,8 +72,8 @@ public class BattleField_activity extends MainActivity {
                 if (i > 0 && j > 1) {
                     TableRow tableRow2 = new TableRow(this);
                     TableRow.LayoutParams layoutParams2 = new TableRow.LayoutParams
-                            (TableRow.LayoutParams.WRAP_CONTENT,
-                                    TableRow.LayoutParams.WRAP_CONTENT);
+                            (TableRow.LayoutParams.MATCH_PARENT,
+                                    TableRow.LayoutParams.MATCH_PARENT);
                     layoutParams2.weight = 10;
 
                     layoutParams2.setMargins(50, 50, 50, 50);
@@ -81,12 +82,12 @@ public class BattleField_activity extends MainActivity {
                 } else {
                     int c;
                     String s = "";
-                    if (i == 0 && j > 1) {
-                        c = j - 1;
-                        s = Integer.toString(c);
+                    if (i == -1 && j > -1) {
+                        c = j + 1;
+                        s = Integer.toString(c) + " ";
                     }
-                    if (j == 1 && i > 0) {
-                        c = i;
+                    if (j == -1 && i > -1) {
+                        c = i + 1;
                         s = Integer.toString(c);
                     }
                     TextView textView = new TextView(BattleField_activity.this);
@@ -95,7 +96,7 @@ public class BattleField_activity extends MainActivity {
                     textView.setId(BattleField.idXY(j, i));
                     textView.setTextSize(20);
                 }
-                if (i == 0 || j == 1) {
+                if (i == -1 || j == -1) {
                     tableRow1.setBackgroundColor(Color.YELLOW);
                 } else tableRow1.setBackgroundColor(Color.argb(100, 0, 50, 200));
 
