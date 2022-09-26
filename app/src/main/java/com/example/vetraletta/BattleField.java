@@ -2,11 +2,10 @@ package com.example.vetraletta;
 
 
 import android.graphics.Color;
-import android.view.View;
 import android.widget.TextView;
 
 
-public class BattleField {
+public class BattleField extends BattleField_activity {
     static final int width = 10;
     static final int height = 10;
 
@@ -79,12 +78,12 @@ public class BattleField {
     }
 
     public void draw() {
-        View v = BattleField_activity.seaView;
         TextView c;
 
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                c = (TextView) v.findViewById(idXY(x, y));
+
+                c = (TextView) findViewById(idXY(x, y));
                 c.setBackgroundColor(Color.BLUE);
                 c.setTextColor(Color.RED);
                 c.setText(String.format("%c", sea[y][x]));

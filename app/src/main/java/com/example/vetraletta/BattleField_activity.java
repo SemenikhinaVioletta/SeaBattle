@@ -45,7 +45,6 @@ public class BattleField_activity extends MainActivity {
     //отрисовка таблицы
     private void makeSeaField() {
         TableLayout tableLayout = findViewById(R.id.seaField);
-        seaView = (View) tableLayout;
         for (int i = -1; i <= BattleField.height - 1; i++) {
             TableRow tableRow = new TableRow(this);
             TableRow.LayoutParams layoutParams = new TableRow.LayoutParams
@@ -103,5 +102,6 @@ public class BattleField_activity extends MainActivity {
             }
         }
 
+        //seaView.findViewById(R.id.seaField);
     }
 }

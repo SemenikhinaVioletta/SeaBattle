@@ -1,12 +1,11 @@
 package com.example.vetraletta;
 
 import android.graphics.Color;
-import android.view.View;
 import android.widget.TextView;
 
 import java.util.Arrays;
 
-public class Ship {
+public class Ship extends BattleField_activity{
     public static final int missileBoat = 1;
     public static final int submarine = 2;
     public static final int destroyer = 3;
@@ -113,12 +112,11 @@ public class Ship {
     }
 
     public void draw(boolean showBody) {
-        View v = BattleField_activity.seaView;
         TextView c;
         boolean s = showBody || !afloat();
 
         for (int i = 0; y < body.length; i++) {
-            c = (TextView) v.findViewById(BattleField.idXY(getX(i), getY(i)));
+            c = (TextView) findViewById(BattleField.idXY(getX(i), getY(i)));
             c.setTextColor(Color.RED);
             if (s || body[i] == knockedOut) c.setBackgroundColor(Color.GREEN);
             c.setText(String.format("%c", body[i] == knockedOut ? knockedOut : empty));
