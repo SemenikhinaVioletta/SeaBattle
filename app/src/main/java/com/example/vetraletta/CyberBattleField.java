@@ -1,6 +1,10 @@
 package com.example.vetraletta;
 
 public class CyberBattleField extends BattleField {
+    public CyberBattleField(BattleField_activity parent) {
+        super(parent);
+    }
+
     @Override
     public boolean placeShips() {
         int k, j;

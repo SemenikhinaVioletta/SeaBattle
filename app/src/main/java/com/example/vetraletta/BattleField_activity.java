@@ -1,13 +1,17 @@
 package com.example.vetraletta;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
 public class BattleField_activity extends MainActivity {
+    @SuppressLint("StaticFieldLeak")
     public static View seaView;
 
     final int indexCyberBF = 0;
@@ -21,42 +25,41 @@ public class BattleField_activity extends MainActivity {
 
         makeSeaField();
 
-        bf[indexCyberBF] = new CyberBattleField();
-        bf[indexHumanBF] = new HumanBattleField();
+        bf[indexCyberBF] = new CyberBattleField(this);
+        bf[indexHumanBF] = new HumanBattleField(this);
 
-        //bf[indexCyberBF].placeShips();
-        //bf[indexCyberBF].draw();
+        bf[indexCyberBF].placeShips();
+        bf[indexCyberBF].draw();
 
 
-        //Button button2 = findViewById(R.id.end);
-        //Button button1 = findViewById(R.id.endPlacement);
+        Button button2 = findViewById(R.id.end);
+        Button button1 = findViewById(R.id.endPlacement);
 
-        //button2.setOnClickListener(new View.OnClickListener() {
-        //    @Override
-        //    public void onClick(View v) {
-        //        Intent intent = new Intent(BattleField_activity.this, MainActivity.class);
-        //        startActivity(intent);
-        //    }
-        //});
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(BattleField_activity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     //отрисовка таблицы
     private void makeSeaField() {
         TableLayout tableLayout = findViewById(R.id.seaField);
         tableLayout.setBackgroundColor(Color.RED);
-        for (int i = 0; i <= 10; i += 1) { //BattleField.height - 1
+        for (int i = 0; i <= BattleField.height; i++) {
             TableRow.LayoutParams rowParams = new TableRow.LayoutParams
                     (TableRow.LayoutParams.MATCH_PARENT,
                             TableRow.LayoutParams.MATCH_PARENT);
             rowParams.weight = 10;
 
             TableRow tRow = new TableRow(this);
-            tRow.setMinimumHeight(107);
             tRow.setBackgroundColor(Color.YELLOW);
             tRow.setLayoutParams(rowParams);
             tableLayout.addView(tRow);
 
-            for(int j = 0; j < 10; j += 1){
+            for(int j = 0; j <= BattleField.width; j ++){
                 TableRow.LayoutParams colParams = new TableRow.LayoutParams
                         (TableRow.LayoutParams.MATCH_PARENT,
                                 TableRow.LayoutParams.MATCH_PARENT);
@@ -64,11 +67,15 @@ public class BattleField_activity extends MainActivity {
                 colParams.setMargins(j > 0 ? 10 : 0, i > 0 ? 10 : 0, 0, 0);
 
                 TextView tView = new TextView(this);
-                tView.setMinimumWidth(107);
-                tView.setMinimumHeight(107);
                 tView.setLayoutParams(colParams);
-                if(i == 0 || j == 0){
+                if(i == 0 && j == 0){
                     tView.setBackgroundColor(Color.BLUE);
+                } else if(i == 0 || j == 0){
+                    String rc = Integer.toString(i == 0 ? j : i);
+                    tView.setTextSize(20);
+                    tView.setBackgroundColor(Color.GREEN);
+                    tView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                    tView.setText(rc);
                 } else {
                     tView.setBackgroundColor(Color.GREEN);
                 }
@@ -76,7 +83,5 @@ public class BattleField_activity extends MainActivity {
                 tRow.addView(tView);
             }
         }
-
-        //seaView.findViewById(R.id.seaField);
     }
 }

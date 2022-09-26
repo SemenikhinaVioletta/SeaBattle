@@ -24,18 +24,22 @@ public class BattleField extends BattleField_activity {
 
     int hitX, hitY;
 
-    public BattleField() {
+    protected final BattleField_activity BF_a;
+
+    public BattleField(BattleField_activity parent) {
+        BF_a = parent;
+
         int i = 0;
 
         ships = new Ship[totalShipCount];
         for (int j = 0; j < missileBoatCount; j++)
-            ships[i++] = new Ship(Ship.missileBoat);
+            ships[i++] = new Ship(BF_a, Ship.missileBoat);
         for (int j = 0; j < submarineCount; j++)
-            ships[i++] = new Ship(Ship.submarine);
+            ships[i++] = new Ship(BF_a, Ship.submarine);
         for (int j = 0; j < destroyerCount; j++)
-            ships[i++] = new Ship(Ship.destroyer);
+            ships[i++] = new Ship(BF_a, Ship.destroyer);
         for (int j = 0; j < cruiserCount; j++)
-            ships[i++] = new Ship(Ship.cruiser);
+            ships[i++] = new Ship(BF_a, Ship.cruiser);
         sea = new char[height][width];
     }
 
@@ -80,12 +84,12 @@ public class BattleField extends BattleField_activity {
     public void draw() {
         TextView c;
 
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                c = (TextView) findViewById(idXY(x, y));
+        for (int y = 1; y <= height; y++) {
+            for (int x = 1; x <= width; x++) {
+                c = BF_a.findViewById(idXY(x, y));
                 c.setBackgroundColor(Color.BLUE);
                 c.setTextColor(Color.RED);
-                c.setText(String.format("%c", sea[y][x]));
+                c.setText(String.format("%c", sea[y - 1][x - 1]));
             }
         }
     }
