@@ -82,7 +82,6 @@ public class BattleField extends BattleField_activity {
 
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-
                 c = (TextView) findViewById(idXY(x, y));
                 c.setBackgroundColor(Color.BLUE);
                 c.setTextColor(Color.RED);

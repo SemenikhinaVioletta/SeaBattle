@@ -1,10 +1,8 @@
 package com.example.vetraletta;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -14,7 +12,7 @@ public class BattleField_activity extends MainActivity {
 
     final int indexCyberBF = 0;
     final int indexHumanBF = 1;
-    BattleField bf[] = new BattleField[2];
+    BattleField[] bf = new BattleField[2];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,79 +24,56 @@ public class BattleField_activity extends MainActivity {
         bf[indexCyberBF] = new CyberBattleField();
         bf[indexHumanBF] = new HumanBattleField();
 
-        bf[indexCyberBF].placeShips();
-        bf[indexCyberBF].draw();
+        //bf[indexCyberBF].placeShips();
+        //bf[indexCyberBF].draw();
 
 
-        Button button2 = findViewById(R.id.end);
-        Button button1 = findViewById(R.id.endPlacement);
+        //Button button2 = findViewById(R.id.end);
+        //Button button1 = findViewById(R.id.endPlacement);
 
-        button2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(BattleField_activity.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
+        //button2.setOnClickListener(new View.OnClickListener() {
+        //    @Override
+        //    public void onClick(View v) {
+        //        Intent intent = new Intent(BattleField_activity.this, MainActivity.class);
+        //        startActivity(intent);
+        //    }
+        //});
     }
 
     //отрисовка таблицы
     private void makeSeaField() {
         TableLayout tableLayout = findViewById(R.id.seaField);
-        for (int i = -1; i <= BattleField.height - 1; i++) {
-            TableRow tableRow = new TableRow(this);
-            TableRow.LayoutParams layoutParams = new TableRow.LayoutParams
+        tableLayout.setBackgroundColor(Color.RED);
+        for (int i = 0; i <= 10; i += 1) { //BattleField.height - 1
+            TableRow.LayoutParams rowParams = new TableRow.LayoutParams
                     (TableRow.LayoutParams.MATCH_PARENT,
                             TableRow.LayoutParams.MATCH_PARENT);
-            layoutParams.weight = 1;
-            layoutParams.setMargins(5, 5, 5, 5);
+            rowParams.weight = 10;
 
-            tableRow.setLayoutParams(layoutParams);
-            tableLayout.addView(tableRow);
-            tableRow.setBackgroundColor(Color.GRAY);
+            TableRow tRow = new TableRow(this);
+            tRow.setMinimumHeight(107);
+            tRow.setBackgroundColor(Color.YELLOW);
+            tRow.setLayoutParams(rowParams);
+            tableLayout.addView(tRow);
 
-            for (int j = -1; j <= BattleField.width - 1; j++) {
-                TableRow tableRow1 = new TableRow(this);
-                TableRow.LayoutParams layoutParams1 = new TableRow.LayoutParams
+            for(int j = 0; j < 10; j += 1){
+                TableRow.LayoutParams colParams = new TableRow.LayoutParams
                         (TableRow.LayoutParams.MATCH_PARENT,
                                 TableRow.LayoutParams.MATCH_PARENT);
-                layoutParams1.weight = 10;
+                colParams.weight = 10;
+                colParams.setMargins(j > 0 ? 10 : 0, i > 0 ? 10 : 0, 0, 0);
 
-                layoutParams1.setMargins(5, 5, 5, 5);
-                tableRow1.setLayoutParams(layoutParams1);
-                tableRow.addView(tableRow1);
-
-                if (i > 0 && j > 1) {
-                    TableRow tableRow2 = new TableRow(this);
-                    TableRow.LayoutParams layoutParams2 = new TableRow.LayoutParams
-                            (TableRow.LayoutParams.MATCH_PARENT,
-                                    TableRow.LayoutParams.MATCH_PARENT);
-                    layoutParams2.weight = 10;
-
-                    layoutParams2.setMargins(50, 50, 50, 50);
-                    tableRow2.setLayoutParams(layoutParams2);
-                    tableRow1.addView(tableRow2);
+                TextView tView = new TextView(this);
+                tView.setMinimumWidth(107);
+                tView.setMinimumHeight(107);
+                tView.setLayoutParams(colParams);
+                if(i == 0 || j == 0){
+                    tView.setBackgroundColor(Color.BLUE);
                 } else {
-                    int c;
-                    String s = "";
-                    if (i == -1 && j > -1) {
-                        c = j + 1;
-                        s = Integer.toString(c) + " ";
-                    }
-                    if (j == -1 && i > -1) {
-                        c = i + 1;
-                        s = Integer.toString(c);
-                    }
-                    TextView textView = new TextView(BattleField_activity.this);
-                    tableRow1.addView(textView);
-                    textView.setText(s);
-                    textView.setId(BattleField.idXY(j, i));
-                    textView.setTextSize(20);
+                    tView.setBackgroundColor(Color.GREEN);
                 }
-                if (i == -1 || j == -1) {
-                    tableRow1.setBackgroundColor(Color.YELLOW);
-                } else tableRow1.setBackgroundColor(Color.argb(100, 0, 50, 200));
-
+                tView.setId(BattleField.idXY(j, i));
+                tRow.addView(tView);
             }
         }
 
