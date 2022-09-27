@@ -13,9 +13,6 @@ import android.widget.TextView;
 public class BattleField_activity extends MainActivity {
     @SuppressLint("StaticFieldLeak")
 
-    public static View seaView;
-
-
     final int indexCyberBF = 0;
     final int indexHumanBF = 1;
     BattleField[] bf = new BattleField[2];
@@ -32,7 +29,8 @@ public class BattleField_activity extends MainActivity {
         bf[indexHumanBF] = new HumanBattleField(this);
 
         bf[indexCyberBF].placeShips();
-        bf[indexCyberBF].draw();
+        bf[indexHumanBF].placeShips();
+        bf[indexHumanBF].draw();
 
 
         Button button2 = findViewById(R.id.end);
@@ -43,6 +41,13 @@ public class BattleField_activity extends MainActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(BattleField_activity.this, MainActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        button1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                game();
             }
         });
     }
@@ -73,15 +78,15 @@ public class BattleField_activity extends MainActivity {
                 TextView tView = new TextView(this);
                 tView.setLayoutParams(colParams);
                 if (i == 0 && j == 0) {
-                    tView.setBackgroundColor(Color.BLUE);
+                    tView.setBackgroundColor(Color.MAGENTA);
                 } else if (i == 0 || j == 0) {
                     String rc = Integer.toString(i == 0 ? j : i);
                     tView.setTextSize(20);
-                    tView.setBackgroundColor(Color.WHITE);
+                    tView.setBackgroundColor(Color.YELLOW);
                     tView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                     tView.setText(rc);
                 } else {
-                    tView.setBackgroundColor(Color.WHITE);
+                    tView.setBackgroundColor(Color.YELLOW);
                 }
                 tView.setId(BattleField.idXY(j, i));
                 if (i > 0 && j > 0) {
@@ -93,6 +98,20 @@ public class BattleField_activity extends MainActivity {
                     });
                 }
                 tRow.addView(tView);
+            }
+        }
+    }
+
+    public void game() {
+        TextView textView = (TextView) findViewById(R.id.topSeaTextView);
+        int d = (int) (Math.random() * 1), i = 0, j = 0;
+        while (i < BattleField.totalShipCount && j < BattleField.totalShipCount) {
+            if (d == 0) {
+                textView.setText("Ход человека");
+                i = BattleField.totalShipCount;
+            } else {
+                textView.setText("Ход компьютера");
+                j = BattleField.totalShipCount;
             }
         }
     }

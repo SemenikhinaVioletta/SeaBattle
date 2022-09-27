@@ -40,7 +40,7 @@ public class CyberBattleField extends BattleField {
     @Override
     public void draw() {
         super.draw();
-        for (Ship s : ships) s.draw(true);
+        for (Ship s : ships) s.draw(false);
         // Ещё надо подписфвать, что ход компьютера
     }
 }

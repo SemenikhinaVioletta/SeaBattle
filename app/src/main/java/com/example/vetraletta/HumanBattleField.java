@@ -7,7 +7,24 @@ public class HumanBattleField extends BattleField {
 
     @Override
     public boolean placeShips() {
+        int k, j;
+
+        // srand(time(NULL));
         super.placeShips();
+        for (k = ships.length - 1; k >= 0; k--) {
+            do {
+                do {
+                    ships[k].moveTo(
+                            (int) (Math.random() * width), (int) (Math.random() * height));
+                    ships[k].turnOn(Math.random() < 0.5 ? Ship.horizontal : Ship.vertical);
+                } while (!ships[k].checkInField(width, height));
+
+                for (j = k + 1; j < ships.length; j++)
+                    if (ships[k].inTouchOf(ships[j])) break;
+            } while (j < ships.length);
+            ships[k].build();
+        }
+
         return true;
     }
 
