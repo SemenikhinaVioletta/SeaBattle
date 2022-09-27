@@ -21,7 +21,11 @@ public class Ship extends BattleField_activity{
     int x, y, direction;
     char[] body;
 
-    public Ship(int shipType) {
+    protected final BattleField_activity BF_a;
+
+    public Ship(BattleField_activity parent, int shipType) {
+        BF_a = parent;
+
         x = 0;
         y = 0;
         direction = horizontal;
@@ -115,8 +119,8 @@ public class Ship extends BattleField_activity{
         TextView c;
         boolean s = showBody || !afloat();
 
-        for (int i = 0; y < body.length; i++) {
-            c = (TextView) findViewById(BattleField.idXY(getX(i), getY(i)));
+        for (int i = 0; i < body.length; i++) {
+            c = BF_a.findViewById(BattleField.idXY(getX(i), getY(i)));
             c.setTextColor(Color.RED);
             if (s || body[i] == knockedOut) c.setBackgroundColor(Color.GREEN);
             c.setText(String.format("%c", body[i] == knockedOut ? knockedOut : empty));
