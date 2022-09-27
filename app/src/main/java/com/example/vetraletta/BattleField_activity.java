@@ -12,7 +12,8 @@ import android.widget.TextView;
 
 public class BattleField_activity extends MainActivity {
     @SuppressLint("StaticFieldLeak")
-    public static View seaView;
+
+    public int Shipsm[][] = new int[BattleField.height][BattleField.width];
 
     final int indexCyberBF = 0;
     final int indexHumanBF = 1;
@@ -22,6 +23,15 @@ public class BattleField_activity extends MainActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sea_battle);
+
+        for (int i = 0; i < BattleField.height; i++){
+            for (int j = 0; j < BattleField.width; j++) {
+                Shipsm[i][j] = 0;
+                if (!(Ship.map(i, j))){
+                    Shipsm[j][i] = 1;
+                }
+            }
+        }
 
         makeSeaField();
 
@@ -47,7 +57,7 @@ public class BattleField_activity extends MainActivity {
     //отрисовка таблицы
     private void makeSeaField() {
         TableLayout tableLayout = findViewById(R.id.seaField);
-        tableLayout.setBackgroundColor(Color.RED);
+        tableLayout.setBackgroundColor(Color.WHITE);
         for (int i = 0; i <= BattleField.height; i++) {
             TableRow.LayoutParams rowParams = new TableRow.LayoutParams
                     (TableRow.LayoutParams.MATCH_PARENT,
@@ -78,6 +88,11 @@ public class BattleField_activity extends MainActivity {
                     tView.setText(rc);
                 } else {
                     tView.setBackgroundColor(Color.GREEN);
+                }
+                if (i > 0 && j > 0){
+                    if (Shipsm[i][j] == 1){
+                        tView.setBackgroundColor(Color.GRAY);
+                    }
                 }
                 tView.setId(BattleField.idXY(j, i));
                 tRow.addView(tView);

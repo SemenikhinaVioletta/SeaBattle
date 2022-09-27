@@ -5,7 +5,7 @@ import android.widget.TextView;
 
 import java.util.Arrays;
 
-public class Ship extends BattleField_activity{
+public class Ship extends BattleField_activity {
     public static final int missileBoat = 1;
     public static final int submarine = 2;
     public static final int destroyer = 3;
@@ -18,16 +18,23 @@ public class Ship extends BattleField_activity{
     static final char inOrder = 'O';
     static final char knockedOut = 'X';
 
-    int x, y, direction;
-    char[] body;
+    static int X, Y, direction;
+    static char[] body;
 
     protected final BattleField_activity BF_a;
+
+    public static boolean map(int y, int x) {
+        if (hit(x, y) == -1) {
+            return true;
+        }
+        return false;
+    }
 
     public Ship(BattleField_activity parent, int shipType) {
         BF_a = parent;
 
-        x = 0;
-        y = 0;
+        X = 0;
+        Y = 0;
         direction = horizontal;
         body = new char[shipType];
         Arrays.fill(body, empty);
@@ -42,14 +49,14 @@ public class Ship extends BattleField_activity{
         return false;
     }
 
-    public int hit(int x, int y) {
+    public static int hit(int x, int y) {
         for (int i = 0; i < body.length; i++) {
             if (direction == horizontal) {
-                if (this.y != y) break;
-                if (this.x + i == x) return i;
+                if (Y != y) break;
+                if (X + i == x) return i;
             } else {
-                if (this.x != x) break;
-                if (this.y + i == y) return i;
+                if (X != x) break;
+                if (Y + i == y) return i;
             }
         }
         return -1;
@@ -61,8 +68,8 @@ public class Ship extends BattleField_activity{
     }
 
     public void moveTo(int x, int y) {
-        this.x = x;
-        this.y = y;
+        X = x;
+        Y = y;
     }
 
     public void turnOn(int dir) {
@@ -70,18 +77,18 @@ public class Ship extends BattleField_activity{
     }
 
     public int getX(int i) {
-        return direction == horizontal ? x + i : x;
+        return direction == horizontal ? X + i : X;
     }
 
     public int getY(int i) {
-        return direction == vertical ? y + i : y;
+        return direction == vertical ? Y + i : Y;
     }
 
     public boolean checkInField(int width, int height) {
         if (direction == horizontal) {
-            return y < height && x + body.length <= width;
+            return Y < height && X + body.length <= width;
         } else
-            return y + body.length <= height && x < width;
+            return Y + body.length <= height && X < width;
     }
 
     public int type() {
