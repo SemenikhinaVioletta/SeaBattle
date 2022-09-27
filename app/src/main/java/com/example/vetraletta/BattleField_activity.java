@@ -13,7 +13,8 @@ import android.widget.TextView;
 public class BattleField_activity extends MainActivity {
     @SuppressLint("StaticFieldLeak")
 
-    public int Shipsm[][] = new int[BattleField.height][BattleField.width];
+    public static View seaView;
+
 
     final int indexCyberBF = 0;
     final int indexHumanBF = 1;
@@ -24,14 +25,6 @@ public class BattleField_activity extends MainActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sea_battle);
 
-        for (int i = 0; i < BattleField.height; i++){
-            for (int j = 0; j < BattleField.width; j++) {
-                Shipsm[i][j] = 0;
-                if (!(Ship.map(i, j))){
-                    Shipsm[j][i] = 1;
-                }
-            }
-        }
 
         makeSeaField();
 
@@ -58,6 +51,7 @@ public class BattleField_activity extends MainActivity {
     private void makeSeaField() {
         TableLayout tableLayout = findViewById(R.id.seaField);
         tableLayout.setBackgroundColor(Color.WHITE);
+
         for (int i = 0; i <= BattleField.height; i++) {
             TableRow.LayoutParams rowParams = new TableRow.LayoutParams
                     (TableRow.LayoutParams.MATCH_PARENT,
@@ -69,32 +63,35 @@ public class BattleField_activity extends MainActivity {
             tRow.setLayoutParams(rowParams);
             tableLayout.addView(tRow);
 
-            for(int j = 0; j <= BattleField.width; j ++){
+            for (int j = 0; j <= BattleField.width; j++) {
                 TableRow.LayoutParams colParams = new TableRow.LayoutParams
-                        (TableRow.LayoutParams.MATCH_PARENT,
+                        (50,
                                 TableRow.LayoutParams.MATCH_PARENT);
                 colParams.weight = 10;
                 colParams.setMargins(j > 0 ? 10 : 0, i > 0 ? 10 : 0, 0, 0);
 
                 TextView tView = new TextView(this);
                 tView.setLayoutParams(colParams);
-                if(i == 0 && j == 0){
+                if (i == 0 && j == 0) {
                     tView.setBackgroundColor(Color.BLUE);
-                } else if(i == 0 || j == 0){
+                } else if (i == 0 || j == 0) {
                     String rc = Integer.toString(i == 0 ? j : i);
                     tView.setTextSize(20);
-                    tView.setBackgroundColor(Color.GREEN);
+                    tView.setBackgroundColor(Color.WHITE);
                     tView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                     tView.setText(rc);
                 } else {
-                    tView.setBackgroundColor(Color.GREEN);
-                }
-                if (i > 0 && j > 0){
-                    if (Shipsm[i][j] == 1){
-                        tView.setBackgroundColor(Color.GRAY);
-                    }
+                    tView.setBackgroundColor(Color.WHITE);
                 }
                 tView.setId(BattleField.idXY(j, i));
+                if (i > 0 && j > 0) {
+                    tView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            tView.setBackgroundColor(Color.GRAY);
+                        }
+                    });
+                }
                 tRow.addView(tView);
             }
         }
