@@ -15,13 +15,18 @@ public class BattleField_activity extends MainActivity {
 
     final int indexCyberBF = 0;
     final int indexHumanBF = 1;
+    public volatile int d = (int) (Math.random() * 2), k = 0, k1 = 1;
     BattleField[] bf = new BattleField[2];
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sea_battle);
 
+
+        Button button2 = findViewById(R.id.end);
+        Button button1 = findViewById(R.id.endPlacement);
 
         makeSeaField();
 
@@ -31,10 +36,6 @@ public class BattleField_activity extends MainActivity {
         bf[indexCyberBF].placeShips();
         bf[indexHumanBF].placeShips();
         bf[indexHumanBF].draw();
-
-
-        Button button2 = findViewById(R.id.end);
-        Button button1 = findViewById(R.id.endPlacement);
 
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,7 +57,6 @@ public class BattleField_activity extends MainActivity {
     private void makeSeaField() {
         TableLayout tableLayout = findViewById(R.id.seaField);
         tableLayout.setBackgroundColor(Color.WHITE);
-
         for (int i = 0; i <= BattleField.height; i++) {
             TableRow.LayoutParams rowParams = new TableRow.LayoutParams
                     (TableRow.LayoutParams.MATCH_PARENT,
@@ -93,7 +93,7 @@ public class BattleField_activity extends MainActivity {
                     tView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            tView.setBackgroundColor(Color.GRAY);
+                            how(tView);
                         }
                     });
                 }
@@ -102,17 +102,38 @@ public class BattleField_activity extends MainActivity {
         }
     }
 
-    public void game() {
-        TextView textView = (TextView) findViewById(R.id.topSeaTextView);
-        int d = (int) (Math.random() * 1), i = 0, j = 0;
-        while (i < BattleField.totalShipCount && j < BattleField.totalShipCount) {
-            if (d == 0) {
-                textView.setText("Ход человека");
-                i = BattleField.totalShipCount;
-            } else {
-                textView.setText("Ход компьютера");
-                j = BattleField.totalShipCount;
-            }
+    public void how(TextView t) {
+        if (d == 0) {
+            t.setBackgroundColor(Color.GRAY);
+            d = 1;
+        } else {
+            t.setBackgroundColor(Color.RED);
+            d = 0;
         }
+        k += 1;
+    }
+
+    public void game() {
+        Button button1 = findViewById(R.id.endPlacement);
+        TextView textView = (TextView) findViewById(R.id.topSeaTextView);
+        int i = 0, j = 0;
+
+        for (; i < 15 && j < 15; )
+            if (d == 0) {
+                button1.setText("Закончить ход");
+                textView.setText("Ход человека");
+                if (k == k1) {
+                    i += 1;
+                    k1 += 1;
+                }
+            } else {
+                button1.setText("Понятно");
+                textView.setText("Ход компьютера");
+                j += 1;
+                if (k == k1) {
+                    j += 1;
+                    k1 += 1;
+                }
+            }
     }
 }
