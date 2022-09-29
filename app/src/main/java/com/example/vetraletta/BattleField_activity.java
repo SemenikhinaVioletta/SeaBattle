@@ -15,7 +15,7 @@ public class BattleField_activity extends MainActivity {
 
     final int indexCyberBF = 0;
     final int indexHumanBF = 1;
-    public volatile int d = (int) (Math.random() * 2), k = 0, k1 = 1;
+    public static int onClickId;
     BattleField[] bf = new BattleField[2];
 
 
@@ -93,7 +93,7 @@ public class BattleField_activity extends MainActivity {
                     tView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            how(tView);
+                            onClickId = tView.getId();
                         }
                     });
                 }
@@ -102,38 +102,22 @@ public class BattleField_activity extends MainActivity {
         }
     }
 
-    public void how(TextView t) {
-        if (d == 0) {
-            t.setBackgroundColor(Color.GRAY);
-            d = 1;
-        } else {
-            t.setBackgroundColor(Color.RED);
-            d = 0;
-        }
-        k += 1;
-    }
 
     public void game() {
+        int d = (int) (Math.random() * 2);
         Button button1 = findViewById(R.id.endPlacement);
         TextView textView = (TextView) findViewById(R.id.topSeaTextView);
-        int i = 0, j = 0;
 
-        for (; i < 15 && j < 15; )
-            if (d == 0) {
-                button1.setText("Закончить ход");
-                textView.setText("Ход человека");
-                if (k == k1) {
-                    i += 1;
-                    k1 += 1;
-                }
-            } else {
-                button1.setText("Понятно");
-                textView.setText("Ход компьютера");
-                j += 1;
-                if (k == k1) {
-                    j += 1;
-                    k1 += 1;
-                }
-            }
+        boolean endOfGame;
+
+        do {
+            d = indexCyberBF;
+            //d = d == indexCyberBF ? indexHumanBF : indexCyberBF;
+
+            bf[d].draw();
+            bf[d].waitingForHit();
+            endOfGame = bf[d].hit();
+            bf[d].draw();
+        } while (!endOfGame);
     }
 }

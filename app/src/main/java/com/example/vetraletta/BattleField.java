@@ -73,7 +73,7 @@ public class BattleField extends BattleField_activity {
     }
 
     public void waitingForHit() {
-        draw();
+        // draw();
         // Thread.sleep(1000);
     }
 

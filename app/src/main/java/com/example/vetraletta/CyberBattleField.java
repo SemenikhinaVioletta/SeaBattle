@@ -1,5 +1,7 @@
 package com.example.vetraletta;
 
+import android.os.SystemClock;
+
 public class CyberBattleField extends BattleField {
     public CyberBattleField(BattleField_activity parent) {
         super(parent);
@@ -31,9 +33,13 @@ public class CyberBattleField extends BattleField {
     @Override
     public void waitingForHit() {
         super.waitingForHit();
+
         do {
-            hitX = (int) (Math.random() * width);
-            hitY = (int) (Math.random() * height);
+            onClickId = -1;
+
+            while (onClickId < 0) { }
+            hitX = onClickId % width - 2;
+            hitY = onClickId / width - 2;
         } while (!canBeHit());
     }
 

@@ -29,6 +29,15 @@ public class HumanBattleField extends BattleField {
     }
 
     @Override
+    public void waitingForHit() {
+        super.waitingForHit();
+        do {
+            hitX = (int) (Math.random() * width);
+            hitY = (int) (Math.random() * height);
+        } while (!canBeHit());
+    }
+
+    @Override
     public void draw() {
         super.draw();
         for (Ship s : ships) s.draw(true);
