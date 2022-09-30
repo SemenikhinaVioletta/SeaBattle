@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TableLayout;
@@ -13,17 +14,18 @@ import android.widget.TextView;
 public class BattleField_activity extends MainActivity {
     @SuppressLint("StaticFieldLeak")
 
+    static final Object sMonitor = new Object();
+
     final int indexCyberBF = 0;
     final int indexHumanBF = 1;
     public static int onClickId;
     BattleField[] bf = new BattleField[2];
-
+    boolean startGameMessage, endOfGame;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sea_battle);
-
 
         Button button2 = findViewById(R.id.end);
         Button button1 = findViewById(R.id.endPlacement);
@@ -48,9 +50,29 @@ public class BattleField_activity extends MainActivity {
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                game();
+                startGameMessage = true;
+                synchronized (sMonitor) {
+                    sMonitor.notify();
+                }
             }
         });
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                startGameMessage = false;
+                synchronized (sMonitor) {
+                    try {
+                        sMonitor.wait();
+                    } catch (InterruptedException e) {
+                    }
+                }
+                if (startGameMessage) {
+                    game();
+                }
+            }
+        }).start();
+
     }
 
     //отрисовка таблицы
@@ -83,17 +105,20 @@ public class BattleField_activity extends MainActivity {
                     String rc = Integer.toString(i == 0 ? j : i);
                     tView.setTextSize(20);
                     tView.setBackgroundColor(Color.YELLOW);
-                    tView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                     tView.setText(rc);
                 } else {
                     tView.setBackgroundColor(Color.YELLOW);
                 }
                 tView.setId(BattleField.idXY(j, i));
+                tView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                 if (i > 0 && j > 0) {
                     tView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             onClickId = tView.getId();
+                            synchronized (sMonitor) {
+                                sMonitor.notify();
+                            }
                         }
                     });
                 }
@@ -104,20 +129,39 @@ public class BattleField_activity extends MainActivity {
 
 
     public void game() {
-        int d = (int) (Math.random() * 2);
+       /* runOnUiThread(new Runnable() {
+            @Override
+            public void run() {*/
+        int d = Math.random() < 0.5 ? indexCyberBF : indexHumanBF;
         Button button1 = findViewById(R.id.endPlacement);
         TextView textView = (TextView) findViewById(R.id.topSeaTextView);
+        TextView textView2 = (TextView) findViewById(R.id.Hello);
 
-        boolean endOfGame;
+        d = d == indexCyberBF ? indexHumanBF : indexCyberBF;
+        if (d == indexCyberBF) {
+            textView.setText("Ход человека");
+        } else {
+            textView.setText("Ход компьютора");
+        }
 
-        do {
-            d = indexCyberBF;
-            //d = d == indexCyberBF ? indexHumanBF : indexCyberBF;
+        bf[d].draw();
+        bf[d].waitingForHit();
+                   /* //bf[d].waitingForHit();
+                    try {
+                        th.join();
+                    } catch (InterruptedException e) {}*/
 
-            bf[d].draw();
-            bf[d].waitingForHit();
-            endOfGame = bf[d].hit();
-            bf[d].draw();
-        } while (!endOfGame);
+           /* }
+        });*/
+        if (endOfGame) {
+            if (d == indexCyberBF) {
+                textView2.setText("Победа человека");
+            } else  {
+                textView2.setText("Победа компьютора");
+            }
+            Intent intent = new Intent(BattleField_activity.this, MainActivity.class);
+            startActivity(intent);
+        }
+
     }
 }

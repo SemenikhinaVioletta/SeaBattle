@@ -35,6 +35,8 @@ public class HumanBattleField extends BattleField {
             hitX = (int) (Math.random() * width);
             hitY = (int) (Math.random() * height);
         } while (!canBeHit());
+        endOfGame = hit();
+        draw();
     }
 
     @Override

@@ -73,8 +73,7 @@ public class BattleField extends BattleField_activity {
     }
 
     public void waitingForHit() {
-        // draw();
-        // Thread.sleep(1000);
+        draw();
     }
 
     public static int idXY(int x, int y) {
@@ -90,6 +89,7 @@ public class BattleField extends BattleField_activity {
                 c.setBackgroundColor(Color.BLUE);
                 c.setTextColor(Color.RED);
                 c.setText(String.format("%c", sea[y - 1][x - 1]));
+                c.setTextSize(20);
             }
         }
     }
