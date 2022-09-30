@@ -15,10 +15,12 @@ public class BattleField_activity extends MainActivity {
     @SuppressLint("StaticFieldLeak")
 
     static final Object sMonitor = new Object();
+    static final Object sMonitor2 = new Object();
 
     final int indexCyberBF = 0;
     final int indexHumanBF = 1;
     public static int onClickId;
+    int d = Math.random() < 0.5 ? indexCyberBF : indexHumanBF;
     BattleField[] bf = new BattleField[2];
     boolean startGameMessage, endOfGame;
 
@@ -28,7 +30,6 @@ public class BattleField_activity extends MainActivity {
         setContentView(R.layout.activity_sea_battle);
 
         Button button2 = findViewById(R.id.end);
-        Button button1 = findViewById(R.id.endPlacement);
 
         makeSeaField();
 
@@ -47,6 +48,12 @@ public class BattleField_activity extends MainActivity {
             }
         });
 
+        makeHit();
+    }
+
+    public void makeHit(){
+
+        Button button1 = findViewById(R.id.endPlacement);
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,7 +79,6 @@ public class BattleField_activity extends MainActivity {
                 }
             }
         }).start();
-
     }
 
     //отрисовка таблицы
@@ -116,8 +122,8 @@ public class BattleField_activity extends MainActivity {
                         @Override
                         public void onClick(View v) {
                             onClickId = tView.getId();
-                            synchronized (sMonitor) {
-                                sMonitor.notify();
+                            synchronized (sMonitor2) {
+                                sMonitor2.notify();
                             }
                         }
                     });
@@ -129,39 +135,44 @@ public class BattleField_activity extends MainActivity {
 
 
     public void game() {
-       /* runOnUiThread(new Runnable() {
+        runOnUiThread(new Runnable() {
             @Override
-            public void run() {*/
-        int d = Math.random() < 0.5 ? indexCyberBF : indexHumanBF;
-        Button button1 = findViewById(R.id.endPlacement);
-        TextView textView = (TextView) findViewById(R.id.topSeaTextView);
-        TextView textView2 = (TextView) findViewById(R.id.Hello);
+            public void run() {
+                Button button1 = findViewById(R.id.endPlacement);
+                TextView textView = (TextView) findViewById(R.id.topSeaTextView);
+                TextView textView2 = (TextView) findViewById(R.id.Hello);
 
-        d = d == indexCyberBF ? indexHumanBF : indexCyberBF;
-        if (d == indexCyberBF) {
-            textView.setText("Ход человека");
-        } else {
-            textView.setText("Ход компьютора");
-        }
+                button1.setText("");
 
-        bf[d].draw();
-        bf[d].waitingForHit();
-                   /* //bf[d].waitingForHit();
+                d = d == indexCyberBF ? indexHumanBF : indexCyberBF;
+                if (d == indexCyberBF) {
+                    textView.setText("Ход человека");
+                    button1.setText("Ход окончен");
+                } else {
+                    textView.setText("Ход компьютора");
+                    button1.setText("Понятно");
+                }
+
+                bf[d].draw();
+                bf[d].waitingForHit();
+
+                if (endOfGame) {
+                    if (d == indexCyberBF) {
+                        textView2.setText("Победа человека");
+                    } else {
+                        textView2.setText("Победа компьютора");
+                    }
+                    Intent intent = new Intent(BattleField_activity.this, MainActivity.class);
+                    startActivity(intent);
+                }else {
+                    makeHit();
+                }
+                    /*
                     try {
                         th.join();
-                    } catch (InterruptedException e) {}*/
-
-           /* }
-        });*/
-        if (endOfGame) {
-            if (d == indexCyberBF) {
-                textView2.setText("Победа человека");
-            } else  {
-                textView2.setText("Победа компьютора");
+                    } catch (InterruptedException e) {}
+                    */
             }
-            Intent intent = new Intent(BattleField_activity.this, MainActivity.class);
-            startActivity(intent);
-        }
-
+        });
     }
 }

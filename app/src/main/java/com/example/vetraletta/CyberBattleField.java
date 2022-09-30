@@ -34,31 +34,29 @@ public class CyberBattleField extends BattleField {
     public void waitingForHit() {
         super.waitingForHit();
         draw();
-        /*
-        th = new Thread(new Runnable() {
+        new Thread(new Runnable() {
             @Override
             public void run() {
                 do {
-                    onClickId = -1;
-                    synchronized (sMonitor) {
+                    synchronized (sMonitor2) {
                         try {
-                            sMonitor.wait();
+                            sMonitor2.wait();
                         } catch (InterruptedException e) {}
                     }
                     if (onClickId >= 0) {
-                        hitX = onClickId % width - 2;
-                        hitY = onClickId / width - 2;
+                        hitX = onClickId % width - 3;
+                        hitY = onClickId / width - 3;
                     }
                 } while (!canBeHit());
                 endOfGame = hit();
+                draw();
             }
-        });
-        th.start();*/
-        do {
+        }).start();
+       /* do {
             hitX = onClickId % width - 2;
             hitY = onClickId / width - 2;
         } while (!canBeHit());
-        endOfGame = hit();
+        endOfGame = hit();*/
     }
 
     @Override
