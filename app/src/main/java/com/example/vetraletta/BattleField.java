@@ -3,7 +3,6 @@ package com.example.vetraletta;
 
 import android.graphics.Color;
 import android.widget.TextView;
-//l
 
 public class BattleField extends BattleField_activity {
     static final int width = 10;
