@@ -112,7 +112,7 @@ public class BattleField_activity extends MainActivity {
                     tView.setTextSize(20);
                     tView.setBackgroundColor(Color.YELLOW);
                     tView.setText(rc);
-                } else {
+                } else { //000
                     tView.setBackgroundColor(Color.YELLOW);
                 }
                 tView.setId(BattleField.idXY(j, i));
